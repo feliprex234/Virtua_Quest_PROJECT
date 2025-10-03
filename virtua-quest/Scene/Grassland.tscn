@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=4 uid="uid://bgvxjh8fjwu6j"]
+[gd_scene load_steps=9 format=4 uid="uid://bgvxjh8fjwu6j"]
 
 [ext_resource type="PackedScene" uid="uid://me732rxwcqp2" path="res://Entities/player.tscn" id="1_ddbqu"]
 [ext_resource type="TileSet" uid="uid://4p03cyti25xk" path="res://Assets/TileSets/grassland.tres" id="2_l3ow8"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://bjr5o1co52m2k" path="res://Assets/Seasonal Tilesets/1 - Grassland/Background parts/3 - Cloud_cover_1.png" id="5_j7m64"]
 [ext_resource type="Texture2D" uid="uid://cv0pdi3qh8esq" path="res://Assets/Seasonal Tilesets/1 - Grassland/Background parts/2 - Hills.png" id="6_pomal"]
 [ext_resource type="Texture2D" uid="uid://cf4dkol0cxiwm" path="res://Assets/Seasonal Tilesets/1 - Grassland/Background parts/1 - Foreground_scenery.png" id="7_n3ejq"]
+[ext_resource type="PackedScene" uid="uid://cycx8hiv0noo4" path="res://Entities/camera.tscn" id="8_l3ow8"]
 
 [node name="Node2D" type="Node2D"]
 
@@ -75,3 +76,5 @@ region_enabled = true
 region_rect = Rect2(0, 0, 576, 208)
 
 [node name="ParallaxBackground" type="Parallax2D" parent="."]
+
+[node name="Camera" parent="." instance=ExtResource("8_l3ow8")]
