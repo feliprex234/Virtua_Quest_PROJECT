@@ -1,8 +1,9 @@
-[gd_scene load_steps=20 format=3 uid="uid://me732rxwcqp2"]
+[gd_scene load_steps=21 format=3 uid="uid://me732rxwcqp2"]
 
 [ext_resource type="Script" uid="uid://wsressxoet27" path="res://Scripts/player.gd" id="1_tcnsb"]
 [ext_resource type="Texture2D" uid="uid://bdcvaeppy0b2m" path="res://Assets/Main Characters/1 - Penguin/Idle (16 x 16).png" id="2_gb1tc"]
 [ext_resource type="Texture2D" uid="uid://bmtj6qo2j4c1n" path="res://Assets/Main Characters/1 - Penguin/Ducking (16 x 16).png" id="2_kee72"]
+[ext_resource type="Texture2D" uid="uid://csnbxa3me3uy1" path="res://Assets/Main Characters/1 - Penguin/Falling (16 x 16).png" id="3_prmdv"]
 [ext_resource type="Texture2D" uid="uid://c44avknt6kqcb" path="res://Assets/Main Characters/1 - Penguin/Jump (16 x 16).png" id="3_taegk"]
 [ext_resource type="Texture2D" uid="uid://cvhsgi2vh55hh" path="res://Assets/Main Characters/1 - Penguin/Waddling (16 x 16).png" id="3_xd3k7"]
 
@@ -63,6 +64,14 @@ animations = [{
 "loop": false,
 "name": &"Duck",
 "speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_prmdv")
+}],
+"loop": false,
+"name": &"Fall",
+"speed": 1.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -128,7 +137,7 @@ script = ExtResource("1_tcnsb")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 z_index = 1
 sprite_frames = SubResource("SpriteFrames_6jj0l")
-animation = &"Duck"
+animation = &"Fall"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 z_index = 2
