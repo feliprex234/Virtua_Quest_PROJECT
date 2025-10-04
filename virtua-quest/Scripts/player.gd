@@ -5,8 +5,8 @@ enum PlayerSate {
 	walk,
 	jump,
 	fall,
-	duck
-	
+	duck,
+	slide
 }
 
 @onready var anim: AnimatedSprite2D = $AnimatedSprite2D
@@ -14,7 +14,8 @@ enum PlayerSate {
 
 @export var max_speed =90
 @export var acceleration = 400
-@export var decceleration = 300
+@export var decceleration = 300 
+@export var slide_decceleration = 100
 const JUMP_VELOCITY = -300.0
 
 var jump_count = 0
@@ -42,7 +43,9 @@ func _physics_process(delta: float) -> void:
 			fall_state(delta)
 		PlayerSate.duck:
 			duck_state(delta)
-			
+		PlayerSate.slide:
+			slide_state(delta)
+
 	move_and_slide()
 
 
@@ -67,15 +70,19 @@ func go_to_fall_state():
 func go_to_duck_state():
 	status = PlayerSate.duck
 	anim.play("Duck")
-	collision_shape_2d.shape.radius = 5
-	collision_shape_2d.shape.height = 10
-	collision_shape_2d.position.y = 3
+	set_small_collide()
 	
 
 func exit_from_duck_state():
-	collision_shape_2d.shape.radius = 6
-	collision_shape_2d.shape.height = 16
-	collision_shape_2d.position.y = 0
+	set_large_collide()
+	
+func go_to_slide_state():
+	status = PlayerSate.slide
+	anim.play("slide")
+	
+	
+func exit_from_slide_state():
+	pass
 
 func idle_state(delta):
 	move(delta)
@@ -110,6 +117,10 @@ func walk_state(delta):
 		return
 	if is_on_floor():
 		jump_count = 0
+		
+	if Input.is_action_just_pressed("Duck"):
+		go_to_slide_state()
+		return
 
 func jump_state(delta):
 	move(delta)
@@ -140,6 +151,20 @@ func duck_state(_delta):
 		go_to_idle_state()
 		return
 		
+func slide_state(delta):
+	velocity.x = move_toward(velocity.x,0, slide_decceleration * delta)
+	
+	if Input.is_action_just_released("Duck"):
+		exit_from_slide_state()
+		go_to_walk_state()
+		return
+		
+	if velocity.x == 0:
+		exit_from_slide_state()
+		go_to_duck_state() 
+		return
+		
+
 func move(delta):
 	update_direction()
 	if direction:
@@ -160,4 +185,13 @@ func update_direction():
 func can_jump() -> bool:
 	return jump_count < max_jump_count
 
-		
+func set_small_collide():
+	collision_shape_2d.shape.radius = 5
+	collision_shape_2d.shape.height = 10
+	collision_shape_2d.position.y = 3
+	
+
+func set_large_collide():
+	collision_shape_2d.shape.radius = 6
+	collision_shape_2d.shape.height = 16
+	collision_shape_2d.position.y = 0

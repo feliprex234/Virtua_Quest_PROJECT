@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=3 uid="uid://76ryqnbjm84l"]
+
+[ext_resource type="Texture2D" uid="uid://cfm36etbxg7x4" path="res://Assets/Enemies/3 - Skeleton/Standing (32 x 32).png" id="1_5how1"]
+[ext_resource type="Script" uid="uid://da2ntba55cabf" path="res://Scripts/skeleton.gd" id="1_l2ijo"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_l2ijo"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_5how1")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ywtcw"]
+radius = 8.0
+height = 26.0
+
+[node name="Skeleton" type="CharacterBody2D"]
+collision_layer = 4
+script = ExtResource("1_l2ijo")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_l2ijo")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(2, 3)
+shape = SubResource("CapsuleShape2D_ywtcw")
