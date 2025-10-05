@@ -6,17 +6,23 @@ enum PlayerSate {
 	jump,
 	fall,
 	duck,
-	slide
+	slide,
+	wall,
+	hurt
 }
 
 @onready var anim: AnimatedSprite2D = $AnimatedSprite2D
 @onready var collision_shape_2d: CollisionShape2D = $CollisionShape2D
+@onready var reload_timer: Timer = $ReloadTimer
+@onready var collision_hitbox: CollisionShape2D = $HitBox/CollisionShape2D
+@onready var right_wall_detector: RayCast2D = $RightWallDetector
+@onready var left_wall_detector: RayCast2D = $LeftWallDetector
 
 @export var max_speed =90
 @export var acceleration = 400
 @export var decceleration = 300 
 @export var slide_decceleration = 100
-const JUMP_VELOCITY = -300.0
+const JUMP_VELOCITY = -300
 
 var jump_count = 0
 @export var max_jump_count = 0
@@ -45,6 +51,10 @@ func _physics_process(delta: float) -> void:
 			duck_state(delta)
 		PlayerSate.slide:
 			slide_state(delta)
+		PlayerSate.wall:
+			wall_state(delta)
+		PlayerSate.hurt:
+			hurt_state(delta)
 
 	move_and_slide()
 
@@ -62,27 +72,41 @@ func go_to_jump_state():
 	status = PlayerSate.jump
 	anim.play("jump")
 	velocity.y = JUMP_VELOCITY
-	
+
 func go_to_fall_state():
 	status = PlayerSate.fall
 	anim.play("Fall")
-	
+
 func go_to_duck_state():
 	status = PlayerSate.duck
 	anim.play("Duck")
 	set_small_collide()
-	
 
 func exit_from_duck_state():
 	set_large_collide()
-	
+
 func go_to_slide_state():
 	status = PlayerSate.slide
 	anim.play("slide")
+
+func exit_from_slide_state(): 
+	set_large_collide()
+
+func go_to_wall_state():
+	status = PlayerSate.wall
+	anim.play("wall")
+
+func go_to_hurt_state():
+	if status == PlayerSate.hurt:
+		return
+	
+	status = PlayerSate.hurt
+	anim.play("hurt")
+	velocity.x = 0
+	set_large_collide()
+	reload_timer.start() 
 	
 	
-func exit_from_slide_state():
-	pass
 
 func idle_state(delta):
 	move(delta)
@@ -142,7 +166,10 @@ func fall_state(delta):
 		go_to_idle_state()
 	elif is_on_floor():
 		go_to_walk_state()
-	return
+		
+	if left_wall_detector.is_colliding() or right_wall_detector.is_colliding():
+		go_to_wall_state()
+		return
 		
 func duck_state(_delta):
 	update_direction()
@@ -152,7 +179,9 @@ func duck_state(_delta):
 		return
 		
 func slide_state(delta):
+	set_small_collide()
 	velocity.x = move_toward(velocity.x,0, slide_decceleration * delta)
+	
 	
 	if Input.is_action_just_released("Duck"):
 		exit_from_slide_state()
@@ -163,7 +192,16 @@ func slide_state(delta):
 		exit_from_slide_state()
 		go_to_duck_state() 
 		return
-		
+
+func wall_state(delta):
+	
+	
+	if is_on_floor():
+		go_to_idle_state()
+		return
+
+func hurt_state(_delta):
+	pass
 
 func move(delta):
 	update_direction()
@@ -190,8 +228,41 @@ func set_small_collide():
 	collision_shape_2d.shape.height = 10
 	collision_shape_2d.position.y = 3
 	
+	collision_hitbox.shape.size.y = 10
+	collision_hitbox.position.y = 3
 
 func set_large_collide():
 	collision_shape_2d.shape.radius = 6
 	collision_shape_2d.shape.height = 16
 	collision_shape_2d.position.y = 0
+	
+	collision_hitbox.shape.size.y = 15
+	collision_hitbox.position.y = 0.5
+
+func _on_hit_box_area_entered(area: Area2D) -> void:
+	if area.is_in_group("Enemies"):
+		hit_enemy(area)
+	elif area.is_in_group("LethalArea"):
+		hit_lethal_area()
+		
+func _on_hit_box_body_entered(body: Node2D) -> void:
+	if body.is_in_group("LethalArea"):
+		go_to_hurt_state()
+
+func hit_enemy(area: Area2D):
+	if velocity.y > 0:
+		#inimigo morre
+		area.get_parent().take_damage()
+		go_to_jump_state()
+		return
+	else:
+		#player morre
+		go_to_hurt_state()
+		return
+	
+func hit_lethal_area ():
+	go_to_hurt_state()
+
+
+func _on_reload_timer_timeout() -> void:
+	get_tree().reload_current_scene()

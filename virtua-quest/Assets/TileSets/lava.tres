@@ -1,0 +1,19 @@
+[gd_resource type="TileSet" load_steps=3 format=3 uid="uid://het0cxqv3ivj"]
+
+[ext_resource type="Texture2D" uid="uid://cvgrmoo6wyyta" path="res://Assets/Seasonal Tilesets/5 - Misc. universal tiles/Lava_frames (16 x 32).png" id="1_qq14s"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_a2akr"]
+resource_name = "Lava"
+texture = ExtResource("1_qq14s")
+0:0/size_in_atlas = Vector2i(1, 2)
+0:0/animation_frame_0/duration = 0.2
+0:0/animation_frame_1/duration = 0.2
+0:0/animation_frame_2/duration = 0.2
+0:0/animation_frame_3/duration = 0.2
+0:0/0 = 0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 14.857143, -8, 14.857143)
+
+[resource]
+physics_layer_0/collision_layer = 16
+physics_layer_0/collision_mask = 2
+sources/0 = SubResource("TileSetAtlasSource_a2akr")

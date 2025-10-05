@@ -1,4 +1,4 @@
-[gd_resource type="TileSet" load_steps=19 format=3 uid="uid://ddb1yk5lv46h4"]
+[gd_resource type="TileSet" load_steps=17 format=3 uid="uid://ddb1yk5lv46h4"]
 
 [ext_resource type="Texture2D" uid="uid://c504a0snx3b6v" path="res://Assets/Seasonal Tilesets/1 - Grassland/Grassland_entities (16 x 16).png" id="1_nqaxd"]
 [ext_resource type="Texture2D" uid="uid://drw12olsr7ev8" path="res://Assets/Seasonal Tilesets/5 - Misc. universal tiles/Flowers (16 x 16).png" id="2_wtv7e"]
@@ -8,7 +8,6 @@
 [ext_resource type="Texture2D" uid="uid://baj3g400cwuw" path="res://Assets/Seasonal Tilesets/4 - Winter World/Winter_entities (16 x 16).png" id="6_xdht5"]
 [ext_resource type="Texture2D" uid="uid://64sh85whcbt6" path="res://Assets/Seasonal Tilesets/5 - Misc. universal tiles/Snack_machine_Bench_Trash_bin (16 x 16).png" id="7_a567o"]
 [ext_resource type="Texture2D" uid="uid://sfu3why6aae2" path="res://Assets/Seasonal Tilesets/5 - Misc. universal tiles/Metal_Wire_fence (16 x 16).png" id="8_iy081"]
-[ext_resource type="Texture2D" uid="uid://cvgrmoo6wyyta" path="res://Assets/Seasonal Tilesets/5 - Misc. universal tiles/Lava_frames (16 x 32).png" id="9_klxbc"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_sagxc"]
 resource_name = "grassland"
@@ -162,15 +161,6 @@ texture = ExtResource("8_iy081")
 4:0/size_in_atlas = Vector2i(10, 3)
 4:0/0 = 0
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ac426"]
-texture = ExtResource("9_klxbc")
-0:0/size_in_atlas = Vector2i(1, 2)
-0:0/animation_frame_0/duration = 0.5
-0:0/animation_frame_1/duration = 0.5
-0:0/animation_frame_2/duration = 0.5
-0:0/animation_frame_3/duration = 0.5
-0:0/0 = 0
-
 [resource]
 sources/0 = SubResource("TileSetAtlasSource_sagxc")
 sources/1 = SubResource("TileSetAtlasSource_8f6ah")
@@ -180,4 +170,3 @@ sources/4 = SubResource("TileSetAtlasSource_xdht5")
 sources/5 = SubResource("TileSetAtlasSource_a567o")
 sources/7 = SubResource("TileSetAtlasSource_iy081")
 sources/8 = SubResource("TileSetAtlasSource_klxbc")
-sources/9 = SubResource("TileSetAtlasSource_ac426")

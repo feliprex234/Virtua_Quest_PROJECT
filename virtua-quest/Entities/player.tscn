@@ -1,12 +1,15 @@
-[gd_scene load_steps=25 format=3 uid="uid://me732rxwcqp2"]
+[gd_scene load_steps=33 format=3 uid="uid://me732rxwcqp2"]
 
 [ext_resource type="Script" uid="uid://wsressxoet27" path="res://Scripts/player.gd" id="1_tcnsb"]
 [ext_resource type="Texture2D" uid="uid://bdcvaeppy0b2m" path="res://Assets/Main Characters/1 - Penguin/Idle (16 x 16).png" id="2_gb1tc"]
 [ext_resource type="Texture2D" uid="uid://bmtj6qo2j4c1n" path="res://Assets/Main Characters/1 - Penguin/Ducking (16 x 16).png" id="2_kee72"]
+[ext_resource type="Texture2D" uid="uid://dcdfyksh5lrfr" path="res://Assets/Main Characters/1 - Penguin/Hurt (16 x 16).png" id="2_ua6mu"]
 [ext_resource type="Texture2D" uid="uid://csnbxa3me3uy1" path="res://Assets/Main Characters/1 - Penguin/Falling (16 x 16).png" id="3_prmdv"]
 [ext_resource type="Texture2D" uid="uid://c44avknt6kqcb" path="res://Assets/Main Characters/1 - Penguin/Jump (16 x 16).png" id="3_taegk"]
 [ext_resource type="Texture2D" uid="uid://cvhsgi2vh55hh" path="res://Assets/Main Characters/1 - Penguin/Waddling (16 x 16).png" id="3_xd3k7"]
+[ext_resource type="Texture2D" uid="uid://cy857b1ajkax1" path="res://Assets/Main Characters/1 - Penguin/Lying_On_Ground (16 x 16).png" id="3_xy0x1"]
 [ext_resource type="Texture2D" uid="uid://btqd6ipv4qmw" path="res://Assets/Main Characters/1 - Penguin/Belly_Sliding (16 x 16).png" id="6_s1j76"]
+[ext_resource type="Texture2D" uid="uid://d34iilug48ogm" path="res://Assets/Main Characters/1 - Penguin/Wall_Slide (16x16).png" id="10_xy0x1"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_xd3k7"]
 atlas = ExtResource("2_gb1tc")
@@ -68,6 +71,22 @@ region = Rect2(64, 0, 16, 16)
 atlas = ExtResource("3_xd3k7")
 region = Rect2(80, 0, 16, 16)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_mat3c"]
+atlas = ExtResource("10_xy0x1")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ffc7a"]
+atlas = ExtResource("10_xy0x1")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_irn06"]
+atlas = ExtResource("10_xy0x1")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v3fwn"]
+atlas = ExtResource("10_xy0x1")
+region = Rect2(48, 0, 16, 16)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_6jj0l"]
 animations = [{
 "frames": [{
@@ -85,6 +104,17 @@ animations = [{
 "loop": false,
 "name": &"Fall",
 "speed": 1.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_ua6mu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_xy0x1")
+}],
+"loop": false,
+"name": &"hurt",
+"speed": 2.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -150,24 +180,68 @@ animations = [{
 "loop": true,
 "name": &"walk",
 "speed": 9.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mat3c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ffc7a")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_irn06")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v3fwn")
+}],
+"loop": true,
+"name": &"wall",
+"speed": 5.0
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ypkcv"]
 radius = 6.0
 height = 16.0
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_s1j76"]
+size = Vector2(12, 15)
+
 [node name="Player" type="CharacterBody2D" groups=["Player"]]
+z_index = 1
 collision_layer = 2
 collision_mask = 9
 script = ExtResource("1_tcnsb")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 z_index = 1
+position = Vector2(0, 0.1)
 sprite_frames = SubResource("SpriteFrames_6jj0l")
-animation = &"slide"
-frame_progress = 0.6144643
+animation = &"Fall"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
 z_index = 2
 shape = SubResource("CapsuleShape2D_ypkcv")
+
+[node name="HitBox" type="Area2D" parent="."]
+visible = false
+collision_layer = 2
+collision_mask = 20
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
+z_index = 2
+position = Vector2(0, 0.5)
+shape = SubResource("RectangleShape2D_s1j76")
+debug_color = Color(0.5226824, 0, 0.15700457, 0.41960785)
+
+[node name="ReloadTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="RightWallDetector" type="RayCast2D" parent="."]
+target_position = Vector2(7, 0)
+
+[node name="LeftWallDetector" type="RayCast2D" parent="."]
+target_position = Vector2(-7, 0)
+
+[connection signal="area_entered" from="HitBox" to="." method="_on_hit_box_area_entered"]
+[connection signal="body_entered" from="HitBox" to="." method="_on_hit_box_body_entered"]
+[connection signal="timeout" from="ReloadTimer" to="." method="_on_reload_timer_timeout"]
