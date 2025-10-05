@@ -149,9 +149,10 @@ resource_name = "Decorations"
 texture = ExtResource("7_a567o")
 1:1/size_in_atlas = Vector2i(2, 2)
 1:1/0 = 0
+6:2/0 = 0
 3:1/size_in_atlas = Vector2i(3, 2)
 3:1/0 = 0
-6:2/0 = 0
+3:1/0/texture_origin = Vector2i(0, 8)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_klxbc"]
 resource_name = "Cerca de metal"

@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://me732rxwcqp2"]
+[gd_scene load_steps=37 format=3 uid="uid://me732rxwcqp2"]
 
 [ext_resource type="Script" uid="uid://wsressxoet27" path="res://Scripts/player.gd" id="1_tcnsb"]
 [ext_resource type="Texture2D" uid="uid://bdcvaeppy0b2m" path="res://Assets/Main Characters/1 - Penguin/Idle (16 x 16).png" id="2_gb1tc"]
@@ -10,6 +10,10 @@
 [ext_resource type="Texture2D" uid="uid://cy857b1ajkax1" path="res://Assets/Main Characters/1 - Penguin/Lying_On_Ground (16 x 16).png" id="3_xy0x1"]
 [ext_resource type="Texture2D" uid="uid://btqd6ipv4qmw" path="res://Assets/Main Characters/1 - Penguin/Belly_Sliding (16 x 16).png" id="6_s1j76"]
 [ext_resource type="Texture2D" uid="uid://d34iilug48ogm" path="res://Assets/Main Characters/1 - Penguin/Wall_Slide (16x16).png" id="10_xy0x1"]
+[ext_resource type="AudioStream" uid="uid://dv250s8rdo60c" path="res://Sounds/DeathSound.mp3" id="11_xakct"]
+[ext_resource type="AudioStream" uid="uid://sssv1ruega40" path="res://Sounds/PlayerJump.mp3" id="12_k47j4"]
+[ext_resource type="AudioStream" uid="uid://s5r1jxo5plcd" path="res://Sounds/WalkSound.mp3" id="13_klb6e"]
+[ext_resource type="AudioStream" uid="uid://dnxn316pkqcie" path="res://Sounds/SlideSound.mp3" id="14_eyssl"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_xd3k7"]
 atlas = ExtResource("2_gb1tc")
@@ -241,6 +245,21 @@ target_position = Vector2(7, 0)
 
 [node name="LeftWallDetector" type="RayCast2D" parent="."]
 target_position = Vector2(-7, 0)
+
+[node name="DeathSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("11_xakct")
+volume_db = -10.0
+
+[node name="PlayerJumpSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("12_k47j4")
+volume_db = -15.0
+
+[node name="PlayerWalkSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("13_klb6e")
+volume_db = -20.0
+
+[node name="PlayerSlideSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("14_eyssl")
 
 [connection signal="area_entered" from="HitBox" to="." method="_on_hit_box_area_entered"]
 [connection signal="body_entered" from="HitBox" to="." method="_on_hit_box_body_entered"]

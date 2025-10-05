@@ -1,12 +1,9 @@
-[gd_scene load_steps=29 format=3 uid="uid://76ryqnbjm84l"]
+[gd_scene load_steps=26 format=3 uid="uid://76ryqnbjm84l"]
 
 [ext_resource type="Script" uid="uid://da2ntba55cabf" path="res://Scripts/skeleton.gd" id="1_l2ijo"]
 [ext_resource type="Texture2D" uid="uid://dblvmcesdqewn" path="res://Assets/Enemies/3 - Skeleton/Limping_Movement (32 x 32).png" id="2_l2ijo"]
 [ext_resource type="Texture2D" uid="uid://cyq4fbijk2buk" path="res://Assets/Enemies/3 - Skeleton/Bone_Toss (32 x 32).png" id="2_loyms"]
 [ext_resource type="Texture2D" uid="uid://dbkkrswppnuhs" path="res://Assets/Enemies/3 - Skeleton/Crumbling_Into_Bone_Pile (32 x 32).png" id="2_ywtcw"]
-[ext_resource type="AudioStream" uid="uid://cy6xuf0py3ljl" path="res://Sounds/SkeletonWalk.mp3" id="5_qt08k"]
-[ext_resource type="AudioStream" uid="uid://c4lalj2fxvpyc" path="res://Sounds/SkeletonHurt.mp3" id="6_uvcil"]
-[ext_resource type="AudioStream" uid="uid://b78bwuh3pn3dl" path="res://Sounds/SkeletonThrow.mp3" id="7_hdh0d"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jianp"]
 atlas = ExtResource("2_loyms")
@@ -193,29 +190,10 @@ target_position = Vector2(0, 18)
 
 [node name="PlayerDetector" type="RayCast2D" parent="."]
 position = Vector2(0, 13)
-target_position = Vector2(80, 0)
-collision_mask = 2
-
-[node name="PlayerDetectorBack" type="RayCast2D" parent="."]
-position = Vector2(0, 13)
-target_position = Vector2(-80, 0)
+target_position = Vector2(61, 0)
 collision_mask = 2
 
 [node name="BoneStarPosition" type="Node2D" parent="."]
 position = Vector2(13, 0)
-
-[node name="SkeletonWalkSound" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("5_qt08k")
-volume_db = -10.0
-max_distance = 256.0
-
-[node name="SkeletonHurtSound" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("6_uvcil")
-volume_db = -15.0
-
-[node name="SkeletonThrowSound" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("7_hdh0d")
-volume_db = -15.0
-max_distance = 256.0
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
